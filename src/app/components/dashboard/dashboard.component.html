@@ -1,0 +1,41 @@
+<style>
+  .nav{
+    font-family: 'Roboto Mono', monospace;
+    color:#000000;
+  }
+  .nav a{
+    
+  }
+  .tabtitle{
+   
+    font-family: 'Roboto Mono', monospace;
+    color:#000000;
+  }
+  
+
+</style>
+ 
+       <tabset>
+         <tab  >
+            <ng-template tabHeading>
+                <span class="tabtitle">Explore</span>
+              </ng-template>
+           <app-search></app-search>
+         </tab>
+         <tab>
+            <ng-template tabHeading>
+                <span class="tabtitle">Scan</span>
+              </ng-template>
+           <app-myproducts></app-myproducts>
+         </tab>
+         <tab >
+            <ng-template tabHeading>
+                <span class="tabtitle">Locations</span>
+              </ng-template>
+           <app-locations></app-locations>
+         </tab>
+         
+       </tabset>
+  
+  
+  

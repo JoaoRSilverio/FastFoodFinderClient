@@ -1,0 +1,205 @@
+
+<style>
+  /*
+   holders
+  */
+
+  .resultsholder {
+    height: 80vh;
+    font-family: 'Roboto Mono', monospace;
+    overflow-y: scroll;
+    padding-top: 15px;
+    margin-top: 10px;
+    background-color: #ffcc80;
+    display: flex;
+    flex-flow: column;
+    scroll-behavior: smooth;
+    scrollbar-base-color: #e0e0e0;
+    scrollbar-highlight-color: #e0e0e0;
+    scrollbar-darkshadow-color: #e0e0e0;
+  }
+
+  .resultitem {
+    background-color: #ffffff;
+    border-radius:0 12px 0 0 ;
+    border: #c67100;
+    margin-bottom: 30px;
+    padding-bottom: 5px;
+    color: #000000;
+    text-align: left;
+    display: block;
+    flex-flow: column;
+
+  }
+
+  .productlocatioholder {
+    text-align: left;
+    display: flex;
+    flex-flow: column;
+  }
+
+  .productlocation {
+    text-align: left;
+    display: flex;
+    flex-flow: column;
+    font-size: 0.8em;
+  }
+
+  .tagholder {
+    padding-bottom: 15px;
+    padding-left: 15px;
+    margin-top: 5px;
+    text-align: left;
+    display: flex;
+    flex-flow: row nowrap;
+
+  }
+
+  /* items */
+
+  .productname {
+    
+    padding: 5px;
+    border-bottom:3px solid #ffcc80;
+    color: #000000;
+    border-radius: 5px 5px 0 0;
+    text-align: left;
+    font-size: 1.2em;
+
+  }
+
+  .productbrand {
+
+    padding: 5px;
+    padding-left: 15px;
+    font-size: 0.9em;
+  }
+
+  .productlocation_address {
+    overflow-x: scroll;
+    padding: 5px;
+    padding-left: 15px;
+    padding-bottom: 0;
+    color: darkgrey;
+  }
+
+  .productlocation_discoveredby {
+    padding: 5px;
+    padding-left: 15px;
+
+    color: lightseagreen;
+  }
+
+  .productlocation_confirmations {
+    font-size: 1em;
+    padding: 5px;
+
+    padding-left: 15px;
+    color: black;
+  }
+
+  .tags {
+    padding: 5px;
+
+    font-size: 0.6em;
+    color: black;
+    font-weight: 900;
+    background-color: lightgray;
+
+
+    margin: 0 5px 0 0px;
+  }
+
+  /* titles  */
+
+  .locationtitle {
+    font-size: 0.7em;
+
+  }
+ 
+
+  /* logos */
+
+  .productbrand_icon {
+    margin-right: 5px;
+    color: #870000;
+  }
+
+  .gothere {
+    font-size: 1.2em;
+    margin-left: 5px;
+    color: lightseagreen;
+  }
+
+  .oklogo {
+    font-size: 1.2em;
+    margin-left: 5px;
+  }
+
+  /* bootstrap overrides*/
+
+  .panel-heading {}
+</style>
+ <div class="container-fluid"  >
+    <div style="margin-top:15px;" class="row">
+    <div  class="col-lg-4 col-lg-offset-2 col-xs-9 col-md-4 col-offset-4 col-sm-10 " >
+      <input class="form-control" type="text"  #searchterm name="searchterm" placeholder="search here">
+    </div>
+    <div class="col-md-2 col-lg-2 col-sm-2 col-xs-3">
+        <div class="form-control btn btn-default"(click)="explore(searchterm.value,kmslider.value)" style="background-color:#ffcc80;color:#000000;"><span class="glyphicon glyphicon-search" aria-hidden="false" ></span></div>
+      </div>
+    <div class="col-xs-12  col-lg-4" style="padding-left:7px;display:flex;flex-flow:row nowrap;margin-top:20px;">
+      <mat-slider #kmslider style="width:90%;" max="50" step="1" thumbLabel=true ></mat-slider><div style="width:10%;padding-top:10px;">Km</div>
+    </div>
+    </div>
+    
+      <div class="row"> 
+    
+        <div style="display:flex;flex-flow:column;" class="col-lg-6 col-xs-12 col-md-8 col-md-offset-2 col-lg-offset-3 resultsholder">
+
+      <div *ngIf="searchresults.length > 0;then results else noresults"></div>
+      <ng-template #results>
+      <div  *ngFor="let result of searchresults;let i = index" class="resultitem">
+        <div class="productname">{{result.product.name}}</div>
+        <div class="productbrand"><span class="productbrand_icon"><b>-</b></span>{{result.product.brand}}</div>
+        <div class="tagholder">
+
+            <div *ngIf="result.product.tags !== 'undefined'" >
+              <div *ngFor="let tag of result.product.tags" class="tags">{{tag.value}}</div>
+            </div>
+          </div>
+        <!-- location -->
+        <div class="panel-group">
+          <div  class="panel-heading text-center">
+            <div class="panel-title">
+                <div class="btn btn-default locationtitle" (click)="result.product.isCollapsed = !result.product.isCollapsed" data-toggle="collapse" href="#locationresults">Locations <span style="margin-left:5px;border-radius:50%;padding:0 3px 0 3px;background-color:lightseagreen ;color:white;">{{result.locations.length}}</span></div>
+                </div>
+          
+            </div>
+            <div id="locationresults" [collapse]="!result.product.isCollapsed" class="panel-collapse collapse" (collapsed)="collapsed($event)"
+            (expanded)="expanded($event)" >
+              <ul class="list-group">
+                <li *ngFor="let locs of result.locations" class="list-group-item">
+                    <div class="productlocation">
+                        <div class="productlocation_address">{{locs.address}} <i class="material-icons gothere">location_on</i> </div>
+                        <div class="productlocation_discoveredby">{{locs.discoveredby.username}}</div>
+                        <div class="productlocation_confirmations">{{locs.confirmations}}<span style="color:green" class="glyphicon glyphicon-thumbs-up oklogo"></span></div>
+                      </div>
+                </li>
+                
+              </ul>
+            </div>
+        
+        </div>
+        
+       <!-- end of locations --> 
+    </div>
+  </ng-template>
+  <ng-template #noresults>
+    <div > Search for something ! </div>
+
+  </ng-template>      
+
+    </div>
+  </div>
+</div>
