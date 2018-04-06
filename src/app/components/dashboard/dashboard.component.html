@@ -14,23 +14,25 @@
   
 
 </style>
- 
+ <div style="text-align: right;padding:10px;" (click)="logout()">
+   <div style="margin-right:15px;">{{username}}</div><div class="btn btn-sm">Logout</div></div>
        <tabset>
-         <tab  >
-            <ng-template tabHeading>
-                <span class="tabtitle">Explore</span>
-              </ng-template>
-           <app-search></app-search>
-         </tab>
+         
          <tab>
             <ng-template tabHeading>
-                <span class="tabtitle">Scan</span>
+                <span class="tabtitle">Places</span>
               </ng-template>
            <app-myproducts></app-myproducts>
          </tab>
+         <tab  >
+            <ng-template tabHeading>
+                <span class="tabtitle">Search</span>
+              </ng-template>
+           <app-search></app-search>
+         </tab>
          <tab >
             <ng-template tabHeading>
-                <span class="tabtitle">Locations</span>
+                <span class="tabtitle">History</span>
               </ng-template>
            <app-locations></app-locations>
          </tab>

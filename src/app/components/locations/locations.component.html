@@ -34,6 +34,16 @@ color: #111111;
     padding-top: 15px;
     overflow-y: scroll;
   }
+  .foodchainname {
+    
+    padding: 5px;
+    border-bottom:3px solid #ffcc80;
+    color: #000000;
+    border-radius: 5px 5px 0 0;
+    text-align: left;
+    font-size: 1.2em;
+
+  }
 </style>
 
 <div class="container-fluid">
@@ -42,13 +52,39 @@ color: #111111;
         <div class="descriptionbox">
             <i>All locations that you found so far.</i>
           </div>
+          <div  *ngFor="let resultgroup of filteredResults">
+              <div class="foodchainname">{{resultgroup.name}}</div>
+            <ul class="list-group">
+              <li *ngFor="let locs of resultgroup.locations" class="list-group-item">
+
+                  <div class="productlocation">
+                      <div class="productlocation_address">{{locs.address}} <a href="https://www.google.com/maps?saddr=My+Location&amp;daddr={{locs.loc.coordinates[1]}},{{locs.loc.coordinates[0]}}" ><i class="material-icons gothere">location_on</i> </a></div>
+                      <div class="productlocation_discoveredby">{{locs.discoveredby.username}}</div>
+                      <div class="productlocation_confirmations">{{locs.confirmations}}<span style="color:green" class="glyphicon glyphicon-thumbs-up oklogo"></span></div>
+                    </div>
+              </li>
+            </ul>
+          </div>
+          <!--
       <div class="location_product_holder">
-          
+        <div id="locationresults" [collapse]="!result.foodchain.isCollapsed" class="panel-collapse collapse" (collapsed)="collapsed($event)"
+        (expanded)="expanded($event)" >
+          <ul class="list-group">
+            <li *ngFor="let locs of result.locations" class="list-group-item">
+                <div class="productlocation">
+                    <div class="productlocation_address">{{locs.address}} <i class="material-icons gothere">location_on</i> </div>
+                    <div class="productlocation_discoveredby">{{locs.discoveredby.username}}</div>
+                    <div class="productlocation_confirmations">{{locs.confirmations}}<span style="color:green" class="glyphicon glyphicon-thumbs-up oklogo"></span></div>
+                  </div>
+            </li>
+            
+          </ul>
+        </div> -->
 
 
 
 
-      </div>
+      
 
     </div>
   </div>

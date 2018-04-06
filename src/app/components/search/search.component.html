@@ -135,21 +135,39 @@
     font-size: 1.2em;
     margin-left: 5px;
   }
-
+  .loadingBall{
+    font-family: 'Tahoma', cursive;
+    margin: 0 auto;
+    border-radius: 50%;
+    padding-top: 5%;
+    width: 60px;
+    height: 60px;
+    background-color: white;
+  }
+  .loadingBox{
+    overflow: hidden;
+    width:100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    height: 100%;
+  }
   /* bootstrap overrides*/
 
   .panel-heading {}
 </style>
  <div class="container-fluid"  >
     <div style="margin-top:15px;" class="row">
-    <div  class="col-lg-4 col-lg-offset-2 col-xs-9 col-md-4 col-offset-4 col-sm-10 " >
+   <!-- <div  class="col-lg-4 col-lg-offset-2 col-xs-9 col-md-4 col-offset-4 col-sm-10 " >
       <input class="form-control" type="text"  #searchterm name="searchterm" placeholder="search here">
     </div>
-    <div class="col-md-2 col-lg-2 col-sm-2 col-xs-3">
-        <div class="form-control btn btn-default"(click)="explore(searchterm.value,kmslider.value)" style="background-color:#ffcc80;color:#000000;"><span class="glyphicon glyphicon-search" aria-hidden="false" ></span></div>
-      </div>
-    <div class="col-xs-12  col-lg-4" style="padding-left:7px;display:flex;flex-flow:row nowrap;margin-top:20px;">
-      <mat-slider #kmslider style="width:90%;" max="50" step="1" thumbLabel=true ></mat-slider><div style="width:10%;padding-top:10px;">Km</div>
+  -->
+    
+    <div class="col-xs-6  col-lg-4" style="padding-left:7px;display:flex;flex-flow:row nowrap;">
+      <mat-slider #kmslider style="width:90%;" value=15 max="30" step="1" thumbLabel=true ></mat-slider><div style="width:10%;padding-top:10px;">Km</div>
+    </div>
+    <div class="col-md-2 col-lg-2 col-sm-2 col-xs-offset-1 col-xs-5">
+      <div class="form-control btn btn-default"(click)="scan(kmslider.value)" style="color:#000000;">Scan</div>
     </div>
     </div>
     
@@ -160,28 +178,28 @@
       <div *ngIf="searchresults.length > 0;then results else noresults"></div>
       <ng-template #results>
       <div  *ngFor="let result of searchresults;let i = index" class="resultitem">
-        <div class="productname">{{result.product.name}}</div>
-        <div class="productbrand"><span class="productbrand_icon"><b>-</b></span>{{result.product.brand}}</div>
-        <div class="tagholder">
+        <div class="productname">{{result.foodchain.name}}</div>
+        <!--<div class="productbrand"><span class="productbrand_icon"><b>-</b></span>{{result.product.brand}}</div>-->
+        <!--<div class="tagholder">
 
             <div *ngIf="result.product.tags !== 'undefined'" >
               <div *ngFor="let tag of result.product.tags" class="tags">{{tag.value}}</div>
             </div>
           </div>
-        <!-- location -->
+        -->        <!-- location -->
         <div class="panel-group">
           <div  class="panel-heading text-center">
             <div class="panel-title">
-                <div class="btn btn-default locationtitle" (click)="result.product.isCollapsed = !result.product.isCollapsed" data-toggle="collapse" href="#locationresults">Locations <span style="margin-left:5px;border-radius:50%;padding:0 3px 0 3px;background-color:lightseagreen ;color:white;">{{result.locations.length}}</span></div>
+                <div class="btn btn-default locationtitle" (click)="result.foodchain.isCollapsed = !result.foodchain.isCollapsed" data-toggle="collapse" href="#locationresults">Locations <span style="margin-left:5px;border-radius:50%;padding:0 3px 0 3px;background-color:lightseagreen ;color:white;">{{result.locations.length}}</span></div>
                 </div>
           
             </div>
-            <div id="locationresults" [collapse]="!result.product.isCollapsed" class="panel-collapse collapse" (collapsed)="collapsed($event)"
+            <div id="locationresults" [collapse]="!result.foodchain.isCollapsed" class="panel-collapse collapse" (collapsed)="collapsed($event)"
             (expanded)="expanded($event)" >
               <ul class="list-group">
                 <li *ngFor="let locs of result.locations" class="list-group-item">
                     <div class="productlocation">
-                        <div class="productlocation_address">{{locs.address}} <i class="material-icons gothere">location_on</i> </div>
+                        <div class="productlocation_address">{{locs.address}} <a href="https://www.google.com/maps?saddr=My+Location&amp;daddr={{locs.loc.coordinates[1]}},{{locs.loc.coordinates[0]}}" ><i class="material-icons gothere">location_on</i> </a> </div>
                         <div class="productlocation_discoveredby">{{locs.discoveredby.username}}</div>
                         <div class="productlocation_confirmations">{{locs.confirmations}}<span style="color:green" class="glyphicon glyphicon-thumbs-up oklogo"></span></div>
                       </div>
@@ -196,8 +214,12 @@
     </div>
   </ng-template>
   <ng-template #noresults>
-    <div > Search for something ! </div>
-
+    
+      <div class="loadingBox"> 
+          <div [@loading]='orange'style="color:black"  class="loadingBall text-center">Fast</div>
+         <div [@loading]='red' style="color:white;background-color: red"  class="loadingBall text-center">Food</div>
+        <div [@loading]='green' style="color:black;background-color: lightgreen"  class="loadingBall text-center">Finder</div>
+        </div>
   </ng-template>      
 
     </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { forEach } from '@angular/router/src/utils/collection';
-
+import {DataService} from '../../services/data.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,14 +9,25 @@ import { forEach } from '@angular/router/src/utils/collection';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+ username:string;
 
-  constructor() {
+  constructor(private dataService:DataService,private router:Router) {
+  //  this.username = "teste"
+  console.log("ran dashboard");
+  this.username = this.dataService.LoggedUser.username;
+  if(this.dataService.LoggedIn){
+    console.log("logged:"+ this.dataService.LoggedIn)
     
-
+  }else{
+    console.log("not logged in redirecting...");
+    this.router.navigate(['/']);
+  }
    }
 
   ngOnInit() {
+    
     console.log("ran dashboard");
+    
   }
   
   selectComponent(active){
@@ -39,5 +51,9 @@ export class DashboardComponent implements OnInit {
     */
     
   }
-  
+  logout(){
+    this.dataService.logout().subscribe(result => { console.log("// logged out --" +result);this.router.navigate(['/']); },err=>{
+      console.log(" error logging out"+err);
+     } )
+  }
 }

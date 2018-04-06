@@ -1,3 +1,6 @@
+<head>
+  <base href="/">
+</head>
 <style>
   .form-control{
     font-family: 'Roboto Mono', monospace;
@@ -13,7 +16,7 @@
 <div class="container">
 <div class="row">
   <div class="col-lg-6 col-xs-12 col-md-8 col-md-offset-2 col-lg-offset-3" class="text-center " >
-    <img src="assets/foodexplorerlogo.png" width="200px" class="" height="auto" >
+    <img [src]="loginImg" width="200px" class="" height="auto" >
   </div>
 </div>
 <div class="row">
@@ -23,7 +26,7 @@
         <input class="form-control" #password type="password" name="password" placeholder="password">
         <!--<div class="btn btn-default" (click)="loginFn()">Login</div> -->
       <input type="button" class="btn btn-default btn-block" (click)="login(username.value,password.value)" value="Login">
-     
+     <p>or <a routerLink="/register" >register</a></p>
     </div>
 </div>
 </div>

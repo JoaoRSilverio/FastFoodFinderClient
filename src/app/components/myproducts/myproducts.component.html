@@ -27,6 +27,13 @@
     text-align: left;
 
   }
+  .loadingBall{
+    margin: 0 auto;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    background-color: #ffcc80;
+  }
 
   
 
@@ -36,6 +43,14 @@
     padding: 5px;
     padding-top: 7px;
   }
+  .loadingBox{
+    overflow: hidden;
+    width:100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    height: 200px;
+  }
 </style>
 <div class="fluid-container">
   <div class="row">
@@ -43,85 +58,28 @@
       <div class="descriptionbox">
         <i>Here you can see items that Food Explorer is currently searching for you as you go around</i>
       </div>
+      
       <div class="scanbox">
-        <div class="scan_product">
-          <div class="scan_product_name">Kissinhos Olla</div>
+          <div *ngIf="myscanlist.foodchains.length > 0; then results else noresults"></div>
+        <ng-template #results>
+        <div  *ngFor="let options of myscanlist.foodchains " class="scan_product">
+          <div class="scan_product_name">{{options.name}}</div>
           <div class="tooglebox">
-            <mat-slide-toggle></mat-slide-toggle>
+            <mat-slide-toggle [checked]="options.selected" (change)="options.selected = !options.selected;toggleOption(options,options.selected)"></mat-slide-toggle>
           </div>
         </div>
-        <div class="scan_product">
-          <div class="scan_product_name">Special Mochi</div>
-          <div class="tooglebox">
-            <mat-slide-toggle></mat-slide-toggle>
-          </div>
-        </div>
-        <div class="scan_product">
-          <div class="scan_product_name">Chinese 300g Flour</div>
-          <div class="tooglebox">
-            <mat-slide-toggle></mat-slide-toggle>
-          </div>
-        </div>
-        <div class="scan_product">
-          <div class="scan_product_name">Nutella 150g</div>
-          <div class="tooglebox">
-            <mat-slide-toggle></mat-slide-toggle>
-          </div>
-        </div>
-        <div class="scan_product">
-          <div class="scan_product_name">Kit Kat Special Edition</div>
-          <div class="tooglebox">
-            <mat-slide-toggle></mat-slide-toggle>
-          </div>
-        </div>
-        <div class="scan_product">
-          <div class="scan_product_name">Red Bean Flour 1Kg</div>
-          <div class="tooglebox">
-            <mat-slide-toggle></mat-slide-toggle>
-          </div>
-        </div>
-        <div class="scan_product">
-          <div class="scan_product_name">Nutella 150g</div>
-          <div class="tooglebox">
-            <mat-slide-toggle></mat-slide-toggle>
-          </div>
-        </div>
-        <div class="scan_product">
-          <div class="scan_product_name">Nutella 150g</div>
-          <div class="tooglebox">
-            <mat-slide-toggle></mat-slide-toggle>
-          </div>
-        </div>
-        <div class="scan_product">
-          <div class="scan_product_name">Nutella 150g</div>
-          <div class="tooglebox">
-            <mat-slide-toggle></mat-slide-toggle>
-          </div>
-        </div>
-        <div class="scan_product">
-          <div class="scan_product_name">Nutella 150g</div>
-          <div class="tooglebox">
-            <mat-slide-toggle></mat-slide-toggle>
-          </div>
-        </div>
-        <div class="scan_product">
-          <div class="scan_product_name">Nutella 150g</div>
-          <div class="tooglebox">
-            <mat-slide-toggle></mat-slide-toggle>
-          </div>
-        </div>
-        <div class="scan_product">
-          <div class="scan_product_name">Nutella 150g</div>
-          <div class="tooglebox">
-            <mat-slide-toggle></mat-slide-toggle>
-          </div>
-        </div>
-        <div class="scan_product">
-          <div class="scan_product_name">Nutella 150g</div>
-          <div class="tooglebox">
-            <mat-slide-toggle></mat-slide-toggle>
-          </div>
-        </div>
+      </ng-template>
+      <ng-template #noresults>
+        <div class="loadingBox"> 
+        <div [@loading]='orange'  class="loadingBall"></div>
+       <div [@loading]='red' style="background-color: red"  class="loadingBall"></div>
+      <div [@loading]='green' style="background-color: lightgreen"  class="loadingBall"></div>
+      </div>
+      </ng-template>
+      
+       
+     
+       
 
         <!-- end of list -->
       </div>

@@ -11,14 +11,17 @@ import { MyproductsComponent } from './components/myproducts/myproducts.componen
 import { LocationsComponent } from './components/locations/locations.component';
 import { AddComponent } from './components/add/add.component';
 import {MatSliderModule} from '@angular/material/slider';
+import {MatInputModule} from '@angular/material/input';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatSlideToggleModule,MatSlideToggleChange} from '@angular/material/slide-toggle';
 import { RegisterComponent } from './components/register/register.component';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import{BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
-
-const appRoutes: Routes = [{path:'register',component:RegisterComponent},{path:'explore',component:SearchComponent},{path:'dashboard',component:DashboardComponent},{path:'',component:LoginComponent},{ path: '**', component: LoginComponent }];
-
+const appRoutes: Routes = [{path:"login" ,component:LoginComponent},{path:'register',component:RegisterComponent},{path:'explore',redirectTo:"/dashboard/explore",pathMatch: 'prefix'},{path:'dashboard/:action?',component:DashboardComponent},{path:'dashboard',component:DashboardComponent},{path:'',redirectTo:"/login",pathMatch: 'prefix'},{path:'**',redirectTo:"/dashboard",pathMatch: 'prefix'}];
+//{path:'',redirectTo:"/login",pathMatch: 'prefix'},{path:'**',redirectTo:"/login",pathMatch: 'prefix'}
 @NgModule({
   declarations: [
     
@@ -32,6 +35,10 @@ const appRoutes: Routes = [{path:'register',component:RegisterComponent},{path:'
     RegisterComponent
   ],
   imports: [
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
     MatSliderModule,
     MatSlideToggleModule,
     CollapseModule.forRoot(),
@@ -39,7 +46,7 @@ const appRoutes: Routes = [{path:'register',component:RegisterComponent},{path:'
     HttpModule,
     RouterModule.forRoot(
       appRoutes,
-      { enableTracing: true } // <-- debugging purposes only
+      { enableTracing: false } // <-- debugging purposes only
     ),
     BrowserModule
   ],

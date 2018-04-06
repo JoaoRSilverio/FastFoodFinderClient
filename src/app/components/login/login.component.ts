@@ -12,8 +12,9 @@ import {Router} from '@angular/router';
 export class LoginComponent implements OnInit {
  // username:string;
   //password:string;
+  private loginImg = './assets/images/foodexplorerlogo.png';
   constructor(private dataService:DataService,public router:Router) {
-    
+   
 
    }
 
@@ -22,9 +23,20 @@ export class LoginComponent implements OnInit {
   
   
   login(username,password){
-    console.log(username + " " + password);
-    this.router.navigate(['/dashboard']);
+    
+     this.dataService.login(username,password).subscribe(result =>{
+       this.dataService.LoggedUser = result;
+       this.dataService.LoggedIn = true;
+      console.log(result);
+
+      this.router.navigate(['/dashboard']);
+     },err=>{
+       console.log("error while loging in;"+ err);
+     })
+
+    //
     
   }
+
 
 }

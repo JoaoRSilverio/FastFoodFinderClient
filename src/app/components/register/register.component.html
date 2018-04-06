@@ -1,10 +1,31 @@
 <div class="container-fluid">
   <div class="row">
-    <form method="POST" action="/register" >
-      <input name="username" class="form-control" type="text" placeholder="insert username">
-      <input name="email" class="form-control" type="email" placeholder="insert email">
-    <input name="password" class="form-control" type="password">
-    <submit>register</submit>
-    </form>
+    <div style="height:100vh;" class="text-center col-sm-12 col-xs-12 col-lg-offset-4 col-lg-4">
+        
+           
+      <form method="POST" action="/register" style="margin-top:60px;" >
+     
+      <mat-form-field class="col-xs-12 col-sm-12" >
+      <input matInput  name="username"  maxlength="12" type="text" placeholder="insert username">
+     
+      </mat-form-field>
+
+      <mat-form-field class="col-xs-12 col-sm-12" >
+          <input matInput  name="email" maxlength="12" type="text" placeholder="insert email">
+         
+          </mat-form-field>
+  
+    <mat-form-field class="col-xs-12 col-sm-12">
+    <input matInput placeholder="Enter your password" name="password" [type]="hide ? 'password' : 'text'">
+    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+  
+  </mat-form-field>
+ <div>
+    <input class="btn-default btn-primary btn-block" style="padding:15px;border-radius:5px;font-size:1.5em;margin-top:30px;" type="submit" value="register">
+  </div>
+  
+  </form>
+  
+  </div>
   </div>
 </div>
