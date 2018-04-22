@@ -38,6 +38,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class SearchComponent implements OnInit {
   searchresults: DisplayElement[];
+  searchresultId:string;
   latitude: number;
   longitude: number;
   orange: String;
@@ -63,7 +64,7 @@ export class SearchComponent implements OnInit {
     }, (error: PositionError) => {
       alert("Location Services Unavailable");
     })
-   
+
   }
   subscribeTo(productid: string) {
     console.log("productid:" + productid);
@@ -74,48 +75,50 @@ export class SearchComponent implements OnInit {
     })
   }
   scan(distance: number) {
- ///////////////// ANIMATED LOADER ///////////
- let orangetimer = TimerObservable.create(0, 600);
- let redtimer = TimerObservable.create(0, 800);
- let greentimer = TimerObservable.create(0, 400);
- this.orangeSub = orangetimer.subscribe(function () {
-   if (this.orange == "up") {
-     this.orange = "disapear";
+    ///////////////// ANIMATED LOADER ///////////
+    let orangetimer = TimerObservable.create(0, 600);
+    let redtimer = TimerObservable.create(0, 800);
+    let greentimer = TimerObservable.create(0, 400);
+    this.orangeSub = orangetimer.subscribe(function () {
+      if (this.orange == "up") {
+        this.orange = "disapear";
 
 
-   } else {
-     this.orange == "down" ? this.orange = "up" : this.orange = "down";
-   }
+      } else {
+        this.orange == "down" ? this.orange = "up" : this.orange = "down";
+      }
 
- }.bind(this));
- this.redSub = redtimer.subscribe(function () {
-   if (this.red == "up") {
-     this.red = "disapear";
-
-
-   } else {
-     this.red == "down" ? this.red = "up" : this.red = "down";
-   }
-
- }.bind(this));
- this.greenSub = greentimer.subscribe(function () {
-   if (this.green == "up") {
-     this.green = "disapear";
+    }.bind(this));
+    this.redSub = redtimer.subscribe(function () {
+      if (this.red == "up") {
+        this.red = "disapear";
 
 
-   } else {
-     this.green == "down" ? this.green = "up" : this.green = "down";
-   }
+      } else {
+        this.red == "down" ? this.red = "up" : this.red = "down";
+      }
 
- }.bind(this));
- ////////////////////////////////////////// 
+    }.bind(this));
+    this.greenSub = greentimer.subscribe(function () {
+      if (this.green == "up") {
+        this.green = "disapear";
+
+
+      } else {
+        this.green == "down" ? this.green = "up" : this.green = "down";
+      }
+
+    }.bind(this));
+    ////////////////////////////////////////// 
     setInterval(function () { console.log(this.searchresults); }, 3000);
     console.log("started searching  @" + this.latitude + "&" + this.longitude + "in a " + distance + " radius");
     this.data.searchProduct(this.latitude, this.longitude, distance)
       .subscribe(results => {
-        console.log("got results result.length:" + results.length);
-        //console.log(results[0]);
-        this.searchresults = results;
+        console.log("got results result.length:" + results.data.length);
+        console.log(results.data);
+        this.searchresults = results.data;
+        this.searchresultId = results.searchid;
+        console.log('got searchid:' + this.searchresultId);
         this.redSub.unsubscribe();
         this.orangeSub.unsubscribe();
         this.greenSub.unsubscribe();
@@ -126,7 +129,20 @@ export class SearchComponent implements OnInit {
         console.log("error: " + err);
       })
   }
+  choosenResult(resultid:string,latitude:string,longitude:string){
+    console.log('result id = '+ resultid);
+    let url = "https://www.google.com/maps?saddr=My+Location&amp;daddr="+latitude+","+longitude;
+    this.data.choosenResult(resultid,this.searchresultId).subscribe(results => {
+     
+      console.log('redirecting to ' + url);
+     // window.location.href = url;
+      return false;
+    },err=>{
+     // window.location.href = url;
+      return false;
 
+    })
+  }
 }
 export class ResultItem {
   name: string;

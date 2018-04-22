@@ -199,7 +199,7 @@
               <ul class="list-group">
                 <li *ngFor="let locs of result.locations" class="list-group-item">
                     <div class="productlocation">
-                        <div class="productlocation_address">{{locs.address}} <a href="https://www.google.com/maps?saddr=My+Location&amp;daddr={{locs.loc.coordinates[1]}},{{locs.loc.coordinates[0]}}" ><i class="material-icons gothere">location_on</i> </a> </div>
+                        <div class="productlocation_address" (click)="choosenResult(locs._id,locs.loc.coordinates[1],locs.loc.coordinates[0])"> {{locs.address}} <i class="material-icons gothere">location_on</i></div>
                         <div class="productlocation_discoveredby">{{locs.discoveredby.username}}</div>
                         <div class="productlocation_confirmations">{{locs.confirmations}}<span style="color:green" class="glyphicon glyphicon-thumbs-up oklogo"></span></div>
                       </div>
